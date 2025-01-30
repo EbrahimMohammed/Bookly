@@ -1,0 +1,69 @@
+# Ignore Visual Studio and Rider specific files
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore build outputs
+bin/
+obj/
+out/
+*.exe
+*.dll
+*.pdb
+*.log
+*.cache
+*.ilk
+*.ilk
+
+# Ignore NuGet packages
+*.nupkg
+packages/
+.nuget/
+
+# Ignore temporary and system files
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Ignore user-specific settings
+*.rsuser
+*.sln.ide
+*.swp
+*.lock.json
+*.lock
+*.pidb
+
+# Ignore .NET-specific files
+project.lock.json
+project.assets.json
+global.json
+appsettings*.json
+
+# Ignore Entity Framework migrations generated files
+Migrations/
+
+# Ignore logs and debug files
+logs/
+*.log
+*.tlog
+*.csproj.user
+
+# Ignore ASP.NET-specific files
+wwwroot/node_modules/
+wwwroot/lib/
+
+# Ignore secrets (DO NOT commit these!)
+secrets.json
+.env
+.env.*
+
+# Ignore JetBrains Rider / ReSharper
+*.DotSettings.user
+.idea/
+ReSharper/
+resharper.xml
