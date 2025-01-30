@@ -6,7 +6,50 @@ using System.Threading.Tasks;
 
 namespace Bookly.Domain.Apartments
 {
-    internal class Amenity
+    public enum Amenity
     {
+        AirConditioning,
+        Balcony,
+        BedSheets,
+        CableTV,
+        CoffeeMaker,
+        CookingBasics,
+        Crib,
+        Dishwasher,
+        Dryer,
+        Essentials,
+        ExtraPillowsAndBlankets,
+        FreeParking,
+        FreeParkingOnPremises,
+        FreeStreetParking,
+        GardenOrBackyard,
+        Gym,
+        HairDryer,
+        Hangers,
+        Heating,
+        HighChair,
+        HotWater,
+        IndoorFireplace,
+        Iron,
+        Kitchen,
+        LaptopFriendlyWorkspace,
+        LockOnBedroomDoor,
+        Microwave,
+        Oven,
+        PaidParkingOffPremises,
+        PaidParkingOnPremises,
+        PatioOrBalcony,
+        PetsAllowed,
+        Pool,
+        PrivateEntrance,
+        Refrigerator,
+        Shampoo,
+        SmokeDetector,
+        SmokingAllowed,
+        Stove,
+        SuitableForEvents,
+        TV,
+        Washer,
+        Wifi
     }
 }
