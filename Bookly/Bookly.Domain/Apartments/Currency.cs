@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bookly.Domain.Apartments
 {
-    public class Currency
+    public record Currency
     {
         internal static readonly Currency None = new Currency("");
         public static readonly Currency Usd = new Currency("USD");
