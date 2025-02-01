@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bookly.Domain.Apartments
+namespace Bookly.Domain.Shared
 {
-    public record Money (decimal Amount, Currency Currency)
+    public record Money(decimal Amount, Currency Currency)
     {
         public static Money operator +(Money first, Money second)
         {
@@ -17,7 +17,9 @@ namespace Bookly.Domain.Apartments
             return new Money(first.Amount + second.Amount, first.Currency);
         }
 
-        public static Money Zero => new Money(0, Currency.None);
-    }   
-    
+        public static Money Zero() => new Money(0, Currency.None);
+        public static Money Zero(Currency currency) => new Money(0, currency);
+        public bool IsZero() => this == Zero(Currency);
+    }
+
 }
