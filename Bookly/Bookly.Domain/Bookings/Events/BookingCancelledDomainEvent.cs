@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Bookly.Domain.Bookings.Events
 {
-    public sealed record BookingReservedDomainEvent(Guid BookingId) : IDomainEvent;
+    public record BookingCancelledDomainEvent(Guid BookingId) :IDomainEvent;
 }
