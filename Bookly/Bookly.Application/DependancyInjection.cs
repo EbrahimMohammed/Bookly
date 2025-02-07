@@ -1,4 +1,5 @@
-﻿using Bookly.Domain.Bookings;
+﻿using Bookly.Application.Behaviours;
+using Bookly.Domain.Bookings;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace Bookly.Application
             services.AddMediatR(configuration =>
             {
                 configuration.RegisterServicesFromAssembly(typeof(DependancyInjection).Assembly);
+                configuration.AddOpenBehavior(typeof(LoggingBehaviour<,>));
             });
 
             services.AddTransient<PricingService>();
