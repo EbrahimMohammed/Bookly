@@ -6,4 +6,4 @@ using System.Threading.Tasks;
 
 namespace Bookly.Domain.Users;
 
-public record LastName(string value);
+public record LastName(string Value);

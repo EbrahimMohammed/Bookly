@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bookly.Domain.Apartments
+namespace Bookly.Domain.Reviews
 {
-    public record Name(string Value);
+    public record Comment(string Value);
 }
