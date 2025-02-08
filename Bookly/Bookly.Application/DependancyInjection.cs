@@ -1,5 +1,6 @@
 ﻿using Bookly.Application.Behaviours;
 using Bookly.Domain.Bookings;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,9 @@ namespace Bookly.Application
             {
                 configuration.RegisterServicesFromAssembly(typeof(DependancyInjection).Assembly);
                 configuration.AddOpenBehavior(typeof(LoggingBehaviour<,>));
+                configuration.AddOpenBehavior(typeof(ValidationBehaviour<,>));
             });
-
+            services.AddValidatorsFromAssembly(typeof(DependancyInjection).Assembly);
             services.AddTransient<PricingService>();
 
             return services;
