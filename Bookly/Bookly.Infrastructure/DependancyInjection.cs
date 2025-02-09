@@ -1,12 +1,15 @@
 ﻿using Bookly.Application.Abstractions;
+using Bookly.Application.Abstractions.Data;
 using Bookly.Application.Abstractions.Email;
 using Bookly.Domain.Abstractions;
 using Bookly.Domain.Apartments;
 using Bookly.Domain.Bookings;
 using Bookly.Domain.Users;
 using Bookly.Infrastructure.Clock;
+using Bookly.Infrastructure.Data;
 using Bookly.Infrastructure.Email;
 using Bookly.Infrastructure.Repositories;
+using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,7 +43,8 @@ namespace Bookly.Infrastructure
             services.AddScoped<IApartmentRepository, ApartmentRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
-
+            services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(connectionString));
+            SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
             return services;
         }
     }
