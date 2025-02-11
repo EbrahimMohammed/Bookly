@@ -20,6 +20,7 @@ namespace Bookly.Domain.Abstractions
             return _domainEvents.ToList();
         }
 
+        protected Entity() { }
         public void ClearDomainEvents()
         {
             _domainEvents.Clear();

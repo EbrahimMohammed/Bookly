@@ -1,3 +1,4 @@
+using Bookly.Api.Extensions;
 using Bookly.Application;
 using Bookly.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    app.ApplyMigrations();
 }
 
 app.UseHttpsRedirection();
