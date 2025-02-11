@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookly.Domain", "Bookly.Dom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookly.Application", "Bookly.Application\Bookly.Application.csproj", "{4CB1FDC9-DF23-45F5-B128-8A2A1C5EFCA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookly.Infrastructure", "Bookly.Infrastructure\Bookly.Infrastructure.csproj", "{B2AB4F63-D84A-4D03-B1FE-3B8C29CA1B51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookly.Infrastructure", "Bookly.Infrastructure\Bookly.Infrastructure.csproj", "{B2AB4F63-D84A-4D03-B1FE-3B8C29CA1B51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookly.Api", "Bookly.Api\Bookly.Api.csproj", "{743FF597-D53C-4B2C-A5C7-14565F2CCA0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{B2AB4F63-D84A-4D03-B1FE-3B8C29CA1B51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2AB4F63-D84A-4D03-B1FE-3B8C29CA1B51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2AB4F63-D84A-4D03-B1FE-3B8C29CA1B51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{743FF597-D53C-4B2C-A5C7-14565F2CCA0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{743FF597-D53C-4B2C-A5C7-14565F2CCA0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{743FF597-D53C-4B2C-A5C7-14565F2CCA0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{743FF597-D53C-4B2C-A5C7-14565F2CCA0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{1E345DDE-96CD-4725-8A60-4A37C88AA188} = {2DC780DF-A737-466B-B739-971743C3E01E}
 		{4CB1FDC9-DF23-45F5-B128-8A2A1C5EFCA3} = {2DC780DF-A737-466B-B739-971743C3E01E}
 		{B2AB4F63-D84A-4D03-B1FE-3B8C29CA1B51} = {2DC780DF-A737-466B-B739-971743C3E01E}
+		{743FF597-D53C-4B2C-A5C7-14565F2CCA0A} = {2DC780DF-A737-466B-B739-971743C3E01E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {05A1C00D-7C81-4747-A990-5F8B0A179A56}

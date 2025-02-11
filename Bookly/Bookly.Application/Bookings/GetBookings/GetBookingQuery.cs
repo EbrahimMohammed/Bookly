@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Bookly.Application.Bookings.GetBookings
 {
-    internal sealed record GetBookingQuery(Guid BookingId) : IQuery<BookingResponse>;
+    public sealed record GetBookingQuery(Guid BookingId) : IQuery<BookingResponse>;
 }

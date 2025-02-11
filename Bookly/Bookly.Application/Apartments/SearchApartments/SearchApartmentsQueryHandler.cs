@@ -17,11 +17,11 @@ namespace Bookly.Application.Apartments.SearchApartments
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
         private static readonly int[] ActiveBookingStatuses =
-    {
-        (int)BookingStatus.Reserved,
-        (int)BookingStatus.Confirmed,
-        (int)BookingStatus.Completed
-    };
+        {
+            (int)BookingStatus.Reserved,
+            (int)BookingStatus.Confirmed,
+            (int)BookingStatus.Completed
+        };
         public SearchApartmentsQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
         {
             _sqlConnectionFactory = sqlConnectionFactory;
