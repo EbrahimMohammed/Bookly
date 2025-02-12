@@ -1,4 +1,5 @@
-﻿using Bookly.Infrastructure;
+﻿using Bookly.Api.Middleware;
+using Bookly.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bookly.Api.Extensions
@@ -10,6 +11,11 @@ namespace Bookly.Api.Extensions
             using var scope = app.ApplicationServices.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             context.Database.Migrate();
+        }
+
+        public static void UseCustomExceptionHandler(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
         }
     }
 }
