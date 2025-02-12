@@ -1,5 +1,6 @@
 ﻿using Bookly.Domain.Abstractions;
 using Bookly.Domain.Shared;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,12 @@ namespace Bookly.Domain.Apartments
         public Money CleaningFee { get; private set; }
         public DateTime? LastBookedOnUtc { get; internal set; }
 
-        public List<Amenity> Amenities { get; private set; } = new();
+        private string _amenitiesJson = "[]"; // Backing field for EF Core
 
+        public List<Amenity> Amenities
+        {
+            get => JsonConvert.DeserializeObject<List<Amenity>>(_amenitiesJson) ?? new List<Amenity>();
+            private set => _amenitiesJson = JsonConvert.SerializeObject(value);
+        }
     }
 }

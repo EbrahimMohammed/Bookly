@@ -26,6 +26,10 @@ namespace Bookly.Infrastructure.Configurations
                 .HasMaxLength(2000)
                 .HasConversion(description => description.Value, value => new Description(value));
 
+            builder.Property(a => a.Amenities)
+                .HasColumnName("amenities")
+                .HasColumnType("NVARCHAR(MAX)");
+
             builder.OwnsOne(a => a.Price, priceBuilder =>
                {
                    priceBuilder.Property(money => money.Currency)
