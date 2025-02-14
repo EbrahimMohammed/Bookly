@@ -1,6 +1,9 @@
-﻿using Bookly.Domain.Abstractions;
+﻿using Bookly.Application.Abstractions;
+using Bookly.Domain.Abstractions;
+using Bookly.Infrastructure.Outbox;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +14,16 @@ namespace Bookly.Infrastructure
 {
     public sealed class ApplicationDbContext : DbContext, IUnitOfWork
     {
-        private readonly IPublisher _publisher;
-        public ApplicationDbContext(DbContextOptions options, IPublisher publisher)
+        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.All
+        };
+
+        private readonly IDateTimeProvider _dateTimeProvider;
+        public ApplicationDbContext(DbContextOptions options, IDateTimeProvider dateTimeProvider)
             : base(options)
         {
-            _publisher = publisher;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,16 +34,17 @@ namespace Bookly.Infrastructure
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            var result = await base.SaveChangesAsync(cancellationToken);
 
-            await PublishDomainEvents();
+            AddDomainEventsAsOutboxMessages();
+
+            var result = await base.SaveChangesAsync(cancellationToken);
 
             return result;
         }
 
-        private async Task PublishDomainEvents()
+        private void AddDomainEventsAsOutboxMessages()
         {
-            var domainEvents = ChangeTracker
+            var outboxMessages = ChangeTracker
                 .Entries<Entity>()
                 .Select(entry => entry.Entity)
                 .SelectMany(entity =>
@@ -46,12 +55,16 @@ namespace Bookly.Infrastructure
 
                     return domainEvents;
 
-                }).ToList();
+                }).Select(domainEvent => new OutboxMessage
+                (
+                    Guid.NewGuid(),
+                    _dateTimeProvider.UtcNow,
+                    domainEvent.GetType().Name,
+                    JsonConvert.SerializeObject(domainEvent, JsonSerializerSettings)
+                  ))
+                .ToList();
 
-            foreach (var domainEvent in domainEvents)
-            {
-                await _publisher.Publish(domainEvent);
-            }
+            AddRange(outboxMessages);
         }
     }
 }

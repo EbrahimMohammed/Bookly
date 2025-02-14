@@ -8,7 +8,7 @@ namespace Bookly.Api.Extensions
 {
     public static class SeedDataExtensions
     {
-        public static void SeedData(this IApplicationBuilder app)
+        public static void SeedApartmentsData(this IApplicationBuilder app)
         {
             using var scope = app.ApplicationServices.CreateScope();
 
@@ -45,6 +45,49 @@ namespace Bookly.Api.Extensions
             """;
 
             connection.Execute(sql, apartments);
+        }
+
+        public static void SeedUsersData(this IApplicationBuilder app)
+        {
+            using var scope = app.ApplicationServices.CreateScope();
+
+            var sqlConnectionFactory = scope.ServiceProvider.GetRequiredService<ISqlConnectionFactory>();
+            using var connection = sqlConnectionFactory.CreateConnection();
+
+            var faker = new Faker();
+
+            // Track generated emails to ensure uniqueness
+            var generatedEmails = new HashSet<string>();
+
+            List<object> users = new();
+            for (var i = 0; i < 100; i++)
+            {
+                string email;
+
+                // Keep generating until a unique email is found
+                do
+                {
+                    faker = new Faker();
+                    email = faker.Person.Email;
+                } while (!generatedEmails.Add(email));  // Will add email if it's unique, otherwise it will retry
+
+                users.Add(new
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = faker.Person.FirstName,
+                    LastName = faker.Person.LastName,
+                    Email = email,
+                });
+            }
+
+            const string sql = """
+            INSERT INTO dbo.users
+            (Id, FirstName, LastName, Email)
+            VALUES(@Id, @FirstName, @LastName, @Email);
+            """;
+
+            connection.Execute(sql, users);
+
         }
     }
 }

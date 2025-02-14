@@ -11,7 +11,7 @@ namespace Bookly.Infrastructure.Email
     {
         public Task SendAsync(Domain.Users.Email email, string subject, string body)
         {
-            return Task.CompletedTask;
+            throw new Exception("Error while sending email");
         }
     }
 }
