@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Quartz;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,8 +15,7 @@ using System.Threading.Tasks;
 
 namespace Bookly.Infrastructure.Outbox
 {
-    [DisallowConcurrentExecution]
-    internal sealed class ProcessOutboxMessages : IJob
+    internal sealed class ProcessOutboxMessagesJob : IPorcessOutboxMessagesJob
     {
         private static readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
         {
@@ -28,13 +26,13 @@ namespace Bookly.Infrastructure.Outbox
         private readonly IPublisher _publisher;
         private readonly OutboxOptions _outboxOptions;
         private readonly IDateTimeProvider _dateTimeProvider;
-        private readonly ILogger<ProcessOutboxMessages> _logger;
+        private readonly ILogger<ProcessOutboxMessagesJob> _logger;
 
 
-        public ProcessOutboxMessages(ISqlConnectionFactory sqlConnectionFactory,
+        public ProcessOutboxMessagesJob(ISqlConnectionFactory sqlConnectionFactory,
             IPublisher publisher,
             IOptions<OutboxOptions> options,
-            ILogger<ProcessOutboxMessages> logger,
+            ILogger<ProcessOutboxMessagesJob> logger,
             IDateTimeProvider dateTimeProvider)
         {
             _sqlConnectionFactory = sqlConnectionFactory;
@@ -45,7 +43,7 @@ namespace Bookly.Infrastructure.Outbox
         }
 
 
-        public async Task Execute(IJobExecutionContext context)
+        public async Task ProcessAsync()
         {
             _logger.LogInformation("Processing outbox messages");
 
@@ -64,7 +62,7 @@ namespace Bookly.Infrastructure.Outbox
                         outboxMessage.Content,
                         _jsonSerializerSettings);
 
-                    await _publisher.Publish(domainEvent, context.CancellationToken);
+                    await _publisher.Publish(domainEvent);
 
                 }
                 catch (Exception caughtException)
@@ -101,8 +99,6 @@ namespace Bookly.Infrastructure.Outbox
 
             return outboxMessages.ToList();
 
-
-            return null;
         }
 
 

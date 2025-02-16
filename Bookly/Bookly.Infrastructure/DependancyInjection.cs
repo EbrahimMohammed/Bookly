@@ -21,7 +21,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Quartz;
+using Hangfire;
 namespace Bookly.Infrastructure
 {
     public static class DependancyInjection
@@ -32,14 +32,19 @@ namespace Bookly.Infrastructure
         {
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddSingleton<OutboxInterceptor>();
+            services.Configure<OutboxOptions>(configuration.GetSection("Outbox"));
 
             var connectionString =
                 configuration.GetConnectionString("Database") ??
                 throw new ArgumentNullException(nameof(configuration));
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<ApplicationDbContext>((provider, options) =>
             {
                 options.UseSqlServer(connectionString);
+
+                var interceptor = provider.GetRequiredService<OutboxInterceptor>();
+                options.AddInterceptors(interceptor);
             });
 
             services.AddScoped<IUserRepository, UserRepository>();
@@ -55,14 +60,16 @@ namespace Bookly.Infrastructure
 
         private static void AddBackgroundJobs(IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<OutboxOptions>(options =>
-                  configuration.GetSection("Outbox").Bind(options));
+            services.AddHangfire(config =>
+               config.UseSqlServerStorage(
+                  configuration.GetConnectionString("Database")
+               ));
 
-            services.AddQuartz();
+            services.AddHangfireServer(options => options.SchedulePollingInterval = TimeSpan.FromSeconds(1));
 
-            services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+            services.AddScoped<IPorcessOutboxMessagesJob, ProcessOutboxMessagesJob>();
 
-            services.ConfigureOptions<ProcessOutboxMessagesJobSetup>();
+
         }
     }
 }
