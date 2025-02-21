@@ -16,6 +16,11 @@ namespace Bookly.Api.Extensions
         public static void UseCustomExceptionHandler(this IApplicationBuilder app)
         {
             app.UseMiddleware<ExceptionHandlingMiddleware>();
+        }  
+        
+        public static void UseRequestContextLogging(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<RequestContextLoggingMiddleware>();
         }
     }
 }
